@@ -27,8 +27,6 @@ SCALE = 0.25
 LED_PIN = 14
 BUTTON_PIN = 4
 
-prev_input = 0	
-
 def generatePage():
 	# camera.start_preview()
 	camera.capture("test.jpg")
@@ -53,7 +51,7 @@ def generatePage():
 	# draw border
 	c.strokeColor = HexColor("#D8D8D8")
 	bottomX = -0.1*inch
-	bottomY = PG_HEIGHT/2+offset
+	bottomY = PG_HEIGHT/2-offset
 	c.rect(bottomX, bottomY, PG_WIDTH/2, PG_HEIGHT*2, stroke=True, fill=False)
 	c.save()
 
@@ -61,7 +59,9 @@ def printPage():
 	# print the image
 	conn = cups.Connection()
 	printers = conn.getPrinters()
-	printer_name = printers.keys()[0]
+	for printer in printers:
+		print printer, printers[printer]["device-uri"]
+	printer_name = printers.keys()[1] # 0 for ML, 1 for HATCH
  
 	conn.printFile(printer_name, "test.pdf", "test", {})
 
@@ -70,8 +70,10 @@ def printPage():
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(LED_PIN, GPIO.OUT)
 GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.add_event_detect(BUTTON_PIN, GPIO.RISING, bouncetime=200)
 camera = picamera.PiCamera()
 camera.resolution = (WIDTH, HEIGHT)
+# camera.start_preview()
 
 def blinkLED():
 	GPIO.output(LED_PIN, GPIO.HIGH)
@@ -81,8 +83,8 @@ def blinkLED():
 
 while(True):
 	# check for button input
-	input = GPIO.input(BUTTON_PIN)
-	if((not prev_input) and not input):
+	
+	if GPIO.event_detected(BUTTON_PIN):
 		print("Button Pressed")
 		# turn on LED	
 		GPIO.output(LED_PIN, GPIO.HIGH)
@@ -92,7 +94,4 @@ while(True):
 		printPage()
 		
 		# turn off LED
-		# GPIO.output(LED_PIN, GPIO.LOW)
-
-		prev_input = input
-		time.sleep(0.05)	
+		GPIO.output(LED_PIN, GPIO.LOW)
