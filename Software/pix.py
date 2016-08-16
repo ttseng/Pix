@@ -70,7 +70,7 @@ def printPage():
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(LED_PIN, GPIO.OUT)
 GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.add_event_detect(BUTTON_PIN, GPIO.RISING, bouncetime=200)
+GPIO.add_event_detect(BUTTON_PIN, GPIO.FALLING, bouncetime=200)
 camera = picamera.PiCamera()
 camera.resolution = (WIDTH, HEIGHT)
 # camera.start_preview()
