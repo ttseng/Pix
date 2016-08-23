@@ -1,3 +1,9 @@
+# pix_full_page.py
+# 
+# This version of the pix script will print on an entire 8.5x11 sheet of paper
+# 
+# Written by ttseng 8/23/16
+
 import os
 import pygame, sys
 import picamera
@@ -13,7 +19,7 @@ import RPi.GPIO as GPIO
 
 FONTNAME = "Helvetica"
 FONTSIZE = 25
-SMALLFONTSIZE = 16
+SMALLFONTSIZE = 20
 
 # page dimensions
 PG_WIDTH = 8.5*inch

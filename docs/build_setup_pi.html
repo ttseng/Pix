@@ -1,0 +1,167 @@
+ <!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Pix by ttseng</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <script src="https://use.fontawesome.com/70758446f8.js"></script>
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Build Pix: Raspberry Pi Setup</h1>
+      <h2 class="project-tagline">Press-to-Print Documentation System</h2>
+      <a href="build_intro.html" class="btn">Intro</a>
+      <a href="build_fabricate_pix.html" class="btn">Fabricate Pix</a>
+      <a href="build_setup_pi.html" class="btn selected">Setup Raspberry Pi</a>
+      <a href="build_using_pix.html" class="btn">Using Pix</a>
+    </section>
+
+    <section class="main-content">
+        <h2>Raspberry Pi Setup</h2>
+        <p>This part of the tutorial will walk you through the following steps:</p>
+            <ol>
+                <li><a href="#connect_to_printer">Connecting to a printer</a></li>
+                <li><a href="#setup_report_lab">Setting up ReportLab</a></li>
+                <li><a href="#setup_camera">Setting up the camera</a></li>
+                <li><a href="#get_pix_script">Getting the Pix script</a></li>
+                <li><a href="#put_it_together">Putting it all together!</a></li>
+            </ol>
+
+        <p>Your printer can either connect to your Pi via USB or through your wifi network if your printer is set up as a network printer.</p>
+
+        <p>Hopefully you were able to get an SD card with NOOBS preinstalled.  If not, follow the <a href="https://www.raspberrypi.org/documentation/installation/noobs.md">instructions on this page</a> to install NOOBS on a fresh SD card – if you need to do this, be aware that it's a long process that will take about 1.5 hours!</p>
+        <p>Install your SD card into the Pi, hook up your display and your keyboard and mouse, and power up your Pi to get started.</p>
+
+        <p class="note"><b>NOTE:</b><br>I find it easiest to do this part with the Raspberry Pi off the Pix stand, so feel free to unplug the button and indicator light for now.</p>
+
+        <h4 id="connect_to_printer">1. Connecting to a printer</h4>
+        <p>First, we'll establish a connection with a printer.  You'll need to connect your Pi to the Internet by either plugging in an ethernet cable or connecting via Wi-Fi.  To connect to Wi-Fi, click the internet icon on the toolbar and connect to your network.<p>
+
+        <img src="images/setup_pi/wifi.png">
+
+        <p>Next, open up a terminal window (the computer screen icon in the top left).</p>
+
+        <img src="images/setup_pi/terminal.png">
+
+        <p>Type the following to install the Common Unix Printing System (CUPS):</p>
+        <pre><code>sudo apt-get install cups</code></pre>
+        <p>After the installation completes, type the following to add permission to access the printer settings:</p>
+
+        <pre><code>sudo usermod -a -G lpadmin pi</code></pre>
+
+        <p>We also need to download the python library for CUPS:</p>
+        <pre><code>sudo apt-get install python-cups</code></pre>
+
+        <p>Now open up a web browser on your Pi (the globe icon that is by default located next to the menu button in the top left) and type the following into the address bar:
+        <pre><code>localhost:631</code></pre>
+        <p>This will open up the CUPS interface:</p>
+
+        <img src="images/setup_pi/cups.png">
+
+        <p>From here, click the <b>Administration tab</b> and then click the <i>Add Printer</i> button:</p>
+
+        <img src="images/setup_pi/cups_add_printer.png">
+
+        You'll be prompted to enter in your Pi username and password, which should be <b>pi</b> and <b>raspberry</b> by default.</p>
+        <p>On the next screen, select your printer and click <b>Continue</b>.  Your printer can either be connected via USB to your Pi (a <b>Local Printer</b>), or you can connect to a network printer (under <b>Discovered Network Printers</b>). </p>
+        <img src="images/setup_pi/cups_printer_list.png">
+
+        <p>Next, you can give the printer an easy to remember name and description (both optional) before clicking <b>Continue</b>.</p>
+        <img src="images/setup_pi/cups_printer_name.png">
+
+        <p>After selecting the printer, you'll be asked to provide a PPD file.  I recommend Googling for your printer model + PPD online to download a copy of the PPD file.</p>
+
+        <img src="images/setup_pi/cups_printer_ppd.png">
+
+        <p>After clicking <b>Add Printer</b>, you'll have options to set the default print settings. When you're done, click <b>Set Default Options</b>.</p>
+
+        <img src="images/setup_pi/cups_printer_options.png">
+
+        <p>You can now send a test print to ensure that the Pi is connecting to the printer.  Click on <b>Maintenance</b> and select <b>Print Test Page</b>.</p>
+
+        <img src="images/setup_pi/test_print.png">
+        
+        <p>You should get a printout that looks like the one below:</p>
+
+        <img src="images/setup_pi/test_print.jpg"/>
+
+        <p>Yay, we've printed from our Pi!</p>
+
+        <h4 id="setup_report_lab">2. Setup ReportLab</h4>
+        <p>Pix uses the ReportLab python toolkit to create PDFs that are then printed.  In order to install ReportLab, we'll first get the latest packages by running the following in the terminal:</p>
+        <pre><code>sudo apt-get update</code></pre>
+        <p>When this completes, run the next command, which will install the latest version of python</p>
+        <pre><code>sudo apt-get install python-dev</code></pre>
+        <p>Ok!  Now we can get ReportLab:</p>
+        <pre><code>sudo pip install reportlab</code></pre>
+
+        <h4 id="setup_camera">3. Setup the camera </h4>
+        <p>To enable the Raspberry Pi Camera, you'll need to edit the Raspberry Pi Configuration by clicking on <b>Menu > Preferences > Raspberry Pi Configuration</b>.</p>
+
+        <img src="images/setup_pi/pi_config.png">
+             
+        <p>Click on the <b>Interfaces</b> tab and click <b>Enable</b> for Camera at the top of the list. At this point, your PI will reboot.<p>
+
+        <img src="images/setup_pi/camera_setting.png">
+
+        <h4 id="get_pix_script">4. Get the Pix Script</h4>
+        <p>Now that all the pieces are in place, you can get Pix running on your Raspberry Pi.  Open up the browser on your Pi to <a href="https://raw.githubusercontent.com/ttseng/Pix/master/Software/pix.p">https://raw.githubusercontent.com/ttseng/Pix/master/Software/pix.py</a>.</p>
+
+        <p>Click on the gear icon on the right and click <b>Save as</b> to save the python script.</p>
+        <img src="images/setup_pi/pix_py_save.png">
+        
+        <p>Click on the <b>Home</b> icon on the left, create a folder called <b>Pix</b> and select the folder to save the script inside.  Name it <b>pix.py</b> and click save.</p>
+        <img src="images/setup_pi/pix_file_save.png">
+
+        <h4 id="put_it_together">5. Putting it all together!</h4>
+        <p>If you open a terminal window, you can test out the script by running </p>
+        <pre><code>sudo python Pix/pix.py</code></pre>
+        <p>When you press the button on your Pix, you should now see the message <b>Button Pressed</b> in the terminal, and your print out should be created shortly afterward.</p>
+
+        <iframe src="https://vine.co/v/5OqjiJtWKMw/embed/simple" width="100%" height="600" frameborder="0"></iframe><script src="https://platform.vine.co/static/scripts/embed.js"></script>
+
+        <p class="note"><b>NOTE:</b><br>
+        The default script is designed to print 1/4" page printouts on Letter-sized paper (8.5x11).  Feel free to edit the script to modify it for your printer page size.
+        </p>
+
+        <p>The last step is to set up the Pi so that it will automatically run this program when it starts up.</p>
+
+        <p>In the terminal, type:</p>
+
+        <pre><code>sudo nano /etc/rc.local</code></pre>
+
+        <p>This will open up an editor for you to edit this setup file.  Before <code>exit 0</code>, type the following lines:</p>
+
+        <pre><code>sleep 10<br>python /home/pi/Pix/pix.py</code></pre>
+
+        <img src="images/setup_pi/edit_rc_local.png">
+
+        <p>Now, press <code>^x</code> (this is control + the letter x on your keyboard) to save.  Enter <b>Y</b> and press the enter key to save.</p>
+
+        <p>Now, if you run <code>sudo reboot</code>, your Pi will reboot, and after starting up, you can check whether your Pix is still working as expected (press the button, ensure that it takes a picture and creates a print out).</p>
+
+        <img src="images/setup_pi/print_out.jpg">
+        <p class="caption">Print out!</p>
+
+        <hr>
+
+        <p style="text-align: center;">You're done with the default setup for Pix!  Click below to learn about some ways to use Pix.</p>
+
+        <a class="startBtn" href="build_using_pix.html">Using pix <icon class="fa fa-arrow-right"></icon></a>
+
+        <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/ttseng/PIx">Pix</a> is maintained by <a href="https://github.com/ttseng">ttseng</a> in collaboration with <a href="https://github.com/wfplhatch/">HATCH</a>, with support from the <a href="librarylab.law.harvard.edu">Harvard Library Innovation Lab</a> and the <a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwilo-r8u8nOAhWRsh4KHXfXCTMQFggfMAA&url=https%3A%2F%2Fwww.media.mit.edu%2F&usg=AFQjCNEYJhDrz-urEQtPj8xG63ZEnRfp0w&sig2=mR5C4R9erdVztffyHCtnKQ">MIT Media Lab</a>.</span>
+        <br>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+        </section>
+
+  
+  </body>
+</html>

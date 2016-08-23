@@ -1,0 +1,126 @@
+ <!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Pix by ttseng</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <script src="https://use.fontawesome.com/70758446f8.js"></script>
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Build Pix: Fabricate Pix</h1>
+      <h2 class="project-tagline">Press-to-Print Documentation System</h2>
+      <a href="build_intro.html" class="btn">Intro</a>
+      <a href="build_fabricate_pix.html" class="btn selected">Fabricate Pix</a>
+      <a href="build_setup_pi.html" class="btn">Setup Raspberry Pi</a>
+      <a href="build_using_pix.html" class="btn">Using Pix</a>
+    </section>
+
+    <section class="main-content">
+
+ <h2>Fabricate Pix</h2>
+
+  <p>We'll begin by fabricating the Pix stand.  The instructions below will guide you through the following steps:</p>
+  <ol>
+    <li><a href="#laser_cutting">Laser cutting the stand</a></li>
+    <li><a href="#3d_printing">3D printing the camera holder</a></li>
+    <li><a href="#electronics">Wiring the electronics</a></li>
+  </ol>
+
+  <img src="images/fabricate_pix/pix_spin.gif" style="width: 100%;"/>
+  <p class="caption">The Pix stand (GIF made with <a href="spin.media.mit.edu">Spin</a>)</p>
+
+
+  <p class="note"><b>Note:</b><br><br>If you would like to order the laser cut parts instead, you can find the parts on Ponoko (<a href="http://www.ponoko.com/design-your-own/products/pix-15x15-13660" target="_blank">http://www.ponoko.com/design-your-own/products/pix-15x15-13660</a>).  It costs $45.33 ($5 for material costs and $40.33 for fabrication costs).  On the Ponoko project page, click <b>Add to Personal Factory</b> and select <b>Wood > MDF</b> as the material (at size 15.118"x15.118").<br><br>
+
+  If you would like to order the 3D printed part, you can order it from <a href="shapeways.com" target="_blank">Shapeways</a>, which costs $17.11. (Download the <a href="../Fabrication/camera_holder.STL" target="_blank" download>STL</a> and upload to Shapeways to purchase).</p>
+
+  <h4 id="laser_cutting">1. Laser cutting the stand</h4>
+  <p>The Pix laser cut parts are designed to fit a 12"x18" sheet of 1/8"-thick MDF (You can also pick another material, but the thickness is important).  The design is a slightly modified version of the output from <a href=".../Fabrication/pix.3dmk" target="_blank" download>123D Make</a>.</p>
+  <a href="../Fabrication/pix_full_12x18.dxf" target="_blank" download><img src="images/fabricate_pix/laser_cut_12x18.png"/></a>
+  <p class="caption">12x18 laser-cut design file [ <a href="../Fabrication/pix/pix_full_12x18.dxf" download>dxf</a> ]</p>
+
+  <p>The red labels should be vector etched, while the blue outlines should be vector cut.</p>
+
+  <img src="images/fabricate_pix/laser_cut.jpg"/>
+  <p class="caption">Laser cutting took about ~30 minutes to cut on a Universal Laser Cutter</p>
+
+  <p>While I've slightly modified the output from 123D Make, you can still follow the assembly instructions to put the laser-cut pieces together.  To do so, download the (free) <a href="http://www.123dapp.com/make" target="_blank">123D Make</a> software and open up this <a href="../Fabrication/pix.3dmk" target="_blank" download>123D Make file</a>.  On the left toolbar, click <b>Assembly Steps</b>, where you can view the assembly instructions step-by-step:</p>
+
+  <img src="images/fabricate_pix/123D_make_instructions.png"/>
+
+  <p class="caption">View the assembly instructions by openings this <a href="../Fabrication/pix.3dmk" target="_blank" download>123D Make file</a></p>
+
+  <p>Now that you've assembled the stand, let's move onto 3D printing the camera holder!</p>
+
+  <h4 id="3d_printing">2. 3D printing the camera holder</h4>
+  <p>The camera holder press-fits onto the end of the stand and has an opening for an indicator LED.  Download the STL file below and print it on your 3D printer of choice.  Be sure to 3D print internal supports!</p>
+  
+  <a href="../Fabrication/camera_holder.stl" download><img src="images/fabricate_pix/camera_holder.png"/></a>
+  <p class="caption">Camera holder [ <a href="../Fabrication/camera_holder.stl" download>STL</a> ].  This part took 3 hours to print on an Ultimaker2.</p>
+
+<h4 id="electronics">3. Wiring the electronics</h4>
+<p>You'll want to get out your soldering iron, wire, wirestrippers, and solder at this point!.You'll also want to get your LED, arcade button, and female headers ready.  Hot glue is option but highly recommended (tape works too).</p>
+
+<p>First, we'll solder two leads to the LED.  You'll need two wires, preferrably in two different colors, that are 6" in length.  Solder the cables to the LED and use tape to make sure the LED leads don't touch one another.  Then, insert the LED into the 3D printed camera holder.</p>
+
+<img src="images/fabricate_pix/led_assembly.jpg"/>
+
+
+<p>Now, cut a 5-pin row of female headers and solder the negative end of the LED to the 3rd pin and the positive end to the 4th pin.  Use tape or hot glue to insulate the wires.  I like to add tape to the "front" of the female header so you know which side faces the edge of the Pi:</p>
+
+<img src="images/fabricate_pix/led_header.jpg"/>
+<p class="caption">The negative end of the LED should be soldered to the 3rd pin of the female header, and the positive end should be soldered to the 4th pin.</p>
+
+<p>Next, we'll wire the button.  First, cut two wires 16" in length, ideally in two different colors, and wire the ground cable to the "A" side of the button and the other color to the "J" side of the button:</p>
+
+<img src="images/fabricate_pix/button_wiring.jpg"/>
+<p class="caption">The ground cable should be soldered to the "A" side, and the other wire should be soldered to the "J" side.</p>
+
+<p>Cut another 5-pin row of female headers and solder the ground wire to the 5th pin and the other wire to the 4th pin.  Again, I added red tape again to know which side is the "front."
+
+<p>At this point, you can install the button into the laser-cut assembly:</p>
+
+<img src="images/fabricate_pix/button_assembly.jpg"/>
+
+<p>With the Raspberry Pi resting on the top of the laser-cut assembly, you can now add the female headers, with the button header on the left side and the LED header on the right side as shown in the schematic:</p>
+
+<a href="images/fabricate_pix/wiring_schematic.png" target="_blank"><img src="images/fabricate_pix/wiring_schematic.png"></img></a>
+<p class="caption">This is an overall schematic for wiring the button and LED to the Raspberry Pi. <br>(Raspberry Pi GPIO Schematic from http://element14.com).</p>
+
+<p>Finally, press-fit the 3D printed camera holder onto the laser-cut stand, with the camera holder centered (use the etched lines on piece Y-10 as reference).  Don't hestiate to use a bit of hot glue here if you want it to be super secure.</p></p>
+
+
+<img src="images/fabricate_pix/camera_assembly.jpg"/>
+
+
+<p>Then install the Raspberry Pi Camera module into the 3D printed camera holder with the ribbon cable facing towards the indicator LED.  The ribbon cable can be installed on the Pi by first pulling up on the cable holder and then inserting the blue side of the cable towards the audio jack:</p>
+
+<img src="https://www.raspberrypi.org/learning/getting-started-with-picamera/images/connect-camera.jpg"/>
+<p class="caption">(Image from http://raspberrypi.org)</p>
+
+<p>Your entire assembly should now look like this:</p>
+
+<img src="images/fabricate_pix/full_assembly.jpg"/>
+
+<hr>
+    <p style="text-align: center;">Now onto setting up the Raspberry Pi!</p>
+
+    <a class="startBtn" href="build_setup_pi.html">Setup Raspberry Pi <icon class="fa fa-arrow-right"></icon></a>
+
+         <footer class="site-footer">
+           <span class="site-footer-owner"><a href="https://github.com/ttseng/PIx">Pix</a> is maintained by <a href="https://github.com/ttseng">ttseng</a> in collaboration with <a href="https://github.com/wfplhatch/">HATCH</a>, with support from the <a href="librarylab.law.harvard.edu">Harvard Library Innovation Lab</a> and the <a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwilo-r8u8nOAhWRsh4KHXfXCTMQFggfMAA&url=https%3A%2F%2Fwww.media.mit.edu%2F&usg=AFQjCNEYJhDrz-urEQtPj8xG63ZEnRfp0w&sig2=mR5C4R9erdVztffyHCtnKQ">MIT Media Lab</a>.</span>
+        <br>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
