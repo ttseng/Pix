@@ -229,7 +229,6 @@ a {
 
 .site-footer-owner {
   display: block;
-  margin: 0 150px;
    }
 
 .site-footer-credits {
@@ -276,4 +275,17 @@ p.caption{
   border: 1px solid #ccc; 
   padding: 10px; 
   font-size: smaller;
+}
+.beta-banner{
+    position: absolute;
+    right: -45px;
+    top: 15px;
+    text-transform: uppercase;
+    transform: rotate(45deg);
+    background: white;
+    width: 150px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 15px;
+}
 }
